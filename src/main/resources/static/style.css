@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    color: white;
+    background-color: #24292e;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+th,
+td {
+    border: 1px solid #2b3137;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #2b3137;
+}
+
+input,
+select,
+button {
+    font-size: large;
+    margin: 5px 0;
+    padding: 5px 25px;
+    background-color: #2b3137;
+    border-color: #2b3137;
+    color: #ffffff;
+    border-radius: 300rem;
+    border-style: solid;
+    gap: 8px;
+    border-width: 0.0625rem;
+    box-shadow: 0px 1px 1px 0px #1c212899,
+        0px 1px 3px 0px #1c212899;
+
+}
+
+button:active {
+    color: #5b6875;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #2b3137;
+    box-shadow: 0 0 10px #5b6875;
+}

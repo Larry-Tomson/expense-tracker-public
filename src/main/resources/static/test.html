@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <h1>Expense Tracker Dashboard</h1>
+
+    <section id="categories">
+        <h3>Category</h3>
+        <form id="categoryForm">
+            <input type="hidden" id="categoryId">
+            <label for="categoryName">Name</label>
+            <input type="text" id="categoryName" placeholder="Name" required>
+            <label for="categoryDescription">Description</label>
+            <input type="text" id="categoryDescription" placeholder="Description">
+            <button type="submit">Save Category</button>
+        </form>
+        <table id="categoriesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </section>
+
+    <hr>
+
+    <section id="expenses">
+        <h3>Expenses</h3>
+        <form id="expenseForm">
+            <input type="hidden" id="expenseId">
+            <input type="text" id="expenseDescription" placeholder="Description" required>
+            <input type="number" id="expenseAmount" placeholder="Amount" step="0.01" required>
+            <input type="date" id="expenseDate" required>
+            <select id="expenseCategory" required>
+            </select>
+            <button type="submit">Save Expense</button>
+        </form>
+        <div>
+            <label for="sortOrder">Sort:</label>
+            <select id="sortOrder">
+                <option value="">None</option>
+                <option value="asc">Asc</option>
+                <option value="desc">Desc</option>
+            </select>
+
+            <label for="filterCategory">Category:</label>
+            <select id="filterCategory">
+                <option value="">All</option>
+            </select>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+
+            <button id="filterBtn" type="button">Filter</button>
+        </div>
+
+        <table id="expensesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
