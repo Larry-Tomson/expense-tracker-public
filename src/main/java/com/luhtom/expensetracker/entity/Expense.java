@@ -1,6 +1,7 @@
 package com.luhtom.expensetracker.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -31,7 +32,7 @@ public class Expense {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDate  date;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

@@ -1,13 +1,16 @@
 package com.luhtom.expensetracker.service;
 
-import java.lang.foreign.Linker.Option;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.luhtom.expensetracker.entity.Category;
+import com.luhtom.expensetracker.entity.Expense;
+import com.luhtom.expensetracker.exception.CategoryNameAlreadyExist;
+import com.luhtom.expensetracker.exception.CategoryNotFoundException;
 import com.luhtom.expensetracker.repository.CategoryRepository;
+import com.luhtom.expensetracker.repository.ExpenseRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -15,38 +18,46 @@ import lombok.AllArgsConstructor;
 @Service
 public class CategoryService {
     private CategoryRepository categoryRepository;
+    private ExpenseRepository expenseRepository;
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
     public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).get();
-    }
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Expense not found, id:" + id));
 
-    public Category getCategoryByName(String name) {
-        return categoryRepository.findByName(name);
     }
 
     public Category createCategory(Category category) {
+        if (categoryRepository.findByName(category.getName()) != null) {
+            throw new CategoryNameAlreadyExist("Category name already exist: " + category.getName());
+        }
         return categoryRepository.save(category);
     }
 
     public Category updateCategory(Long id, Category categoryDetails) {
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            Category categoryModel = category.get();
-            categoryModel.setName(categoryDetails.getName());
-            categoryModel.setDescription(categoryDetails.getDescription());
-            return categoryRepository.save(categoryModel);
-        }
-        return null;
+
+        Category category = getCategoryById(id);
+
+        category.setName(categoryDetails.getName());
+        category.setDescription(categoryDetails.getDescription());
+
+        return categoryRepository.save(category);
     }
 
     public boolean deleteCategory(Long id) {
-        Optional<Category> category = categoryRepository.findById(id);
+        Category category = getCategoryById(id);
+        boolean isDefaultCategory = category.getName().equals("Uncategorized");
 
-        if (category.isPresent() && !category.get().getName().equals("Uncategorized")) {
+        if (!isDefaultCategory) {
+
+            List<Expense> expenses = expenseRepository.findByCategoryId(id);
+            for (Expense expense : expenses) {
+                expense.setCategory(getDefaultCategory());
+                expenseRepository.save(expense);
+            }
             categoryRepository.deleteById(id);
             return true;
         }
@@ -54,6 +65,7 @@ public class CategoryService {
     }
 
     public Category getDefaultCategory() {
+        // TODO the only use case to reset to Uncategorized might remove
         return categoryRepository.findByName("Uncategorized");
     }
 }
