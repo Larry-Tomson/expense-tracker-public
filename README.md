@@ -1,7 +1,6 @@
-# Task Manager Web Application
-## [日本語説明書](media/README_ja.md)
+# Expense Tracker Web Application
 
-Task Manager web application that allow user to register/login and managing tasks.
+Expense Tracker web application that allow you to track your expenses.
 
 ### Feature
 - Create, read, update, and delete expense records
@@ -25,7 +24,8 @@ Run
 mvn spring-boot:run
 ```
 Application endpoint Default port : [localhost:8069](http://localhost:8069)
-Edit web application and SQL database endpoint [here](src\main\resources\application.properties)
+
+Edit web application and SQL database endpoint [here](src/main/resources/application.properties)
 
 ## Requirement
 - **Java Development Kit (JDK) 11 or later**  
