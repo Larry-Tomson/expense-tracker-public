@@ -10,14 +10,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ CategoryNotFoundException.class })
     public ResponseEntity<?> handleCategoryNotFoundException(CategoryNotFoundException exception) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.NOT_FOUND) // 404
                 .body(exception.getMessage());
     }
 
     @ExceptionHandler({ CategoryNameAlreadyExist.class })
     public ResponseEntity<?> handleCategoryNameAlreadyExist(CategoryNameAlreadyExist exception) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.CONFLICT) // 409
                 .body(exception.getMessage());
     }
 
