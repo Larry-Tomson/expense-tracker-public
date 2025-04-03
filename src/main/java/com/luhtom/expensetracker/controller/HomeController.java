@@ -1,13 +1,13 @@
 package com.luhtom.expensetracker.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@RestController
-public class HelloController {
+@Controller
+public class HomeController {
     @GetMapping("/")
     public String getMethodName() {
-        return "hello dude";
+        return "index.html";
     }
 
 }
