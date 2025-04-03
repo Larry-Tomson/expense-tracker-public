@@ -70,11 +70,8 @@ public class ExpenseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
-        boolean deleted = expenseService.deleteExpense(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        expenseService.deleteExpense(id); // unused logic
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

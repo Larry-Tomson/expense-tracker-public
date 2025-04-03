@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.luhtom.expensetracker.entity.Category;
 import com.luhtom.expensetracker.entity.Expense;
+import com.luhtom.expensetracker.exception.ExpenseNotFoundException;
 import com.luhtom.expensetracker.repository.ExpenseRepository;
 
 @Service
@@ -26,7 +27,8 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public List<Expense> getExpensesByDateRange(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    public List<Expense> getExpensesByDateRange( //
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return expenseRepository.findByDateRange(startDate, endDate);
     }
@@ -45,10 +47,7 @@ public class ExpenseService {
 
     public Expense getExpenseById(Long id) {
         Optional<Expense> expense = expenseRepository.findById(id);
-        if (expense.isPresent()) {
-            return expense.get();
-        }
-        return null; // ?
+        return expense.orElseThrow(() -> new ExpenseNotFoundException(id));
     }
 
     public Expense createExpense(Expense expense) {
@@ -60,30 +59,21 @@ public class ExpenseService {
     }
 
     public Expense updateExpense(Long id, Expense expenseDetails) {
-        Optional<Expense> expense = expenseRepository.findById(id);
-        if (expense.isPresent()) {
-            Expense expenseModel = expense.get();
+        Expense expense = getExpenseById(id);
 
-            expenseModel.setDescription(expenseDetails.getDescription());
-            expenseModel.setAmount(expenseDetails.getAmount());
-            expenseModel.setDate(expenseDetails.getDate());
+        expense.setDescription(expenseDetails.getDescription());
+        expense.setAmount(expenseDetails.getAmount());
+        expense.setDate(expenseDetails.getDate());
 
-            if (expenseDetails.getCategory() != null) {
-                expenseModel.setCategory(expenseDetails.getCategory());
-            }
-
-            return expenseRepository.save(expenseModel);
+        if (expenseDetails.getCategory() != null) {
+            expense.setCategory(expenseDetails.getCategory());
         }
-        return null;
+
+        return expenseRepository.save(expense);
     }
 
-    public boolean deleteExpense(Long id) {
-        Optional<Expense> expense = expenseRepository.findById(id);
-        if (expense.isPresent()) {
-            expenseRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteExpense(Long id) {
+        expenseRepository.deleteById(id);
     }
 
 }

@@ -14,6 +14,13 @@ public class GlobalExceptionHandler {
                 .body(exception.getMessage());
     }
 
+    @ExceptionHandler({ ExpenseNotFoundException.class })
+    public ResponseEntity<?> handleExpenseNotFoundException(ExpenseNotFoundException exception) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND) // 404
+                .body(exception.getMessage());
+    }
+
     @ExceptionHandler({ CategoryNameAlreadyExist.class })
     public ResponseEntity<?> handleCategoryNameAlreadyExist(CategoryNameAlreadyExist exception) {
         return ResponseEntity
